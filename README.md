@@ -1,368 +1,440 @@
 # Zepto Data & AI Platform
 
-## Masai School — Certificate Program in Artificial Intelligence and Machine Learning
+Masai School AI/ML Capstone Project
 
-This repository contains the capstone project for the **Masai School Certificate Program in Artificial Intelligence and Machine Learning**.
+This repository contains an end-to-end data engineering, analytics, machine learning, and AI assistant project developed as part of the Masai School capstone.
 
-The project implements one connected Zepto-style Data & AI platform consisting of three internally linked modules:
+The project is organized into three major modules:
 
-1. **Data Pipeline** — web scraping, data cleaning, currency conversion, SQLite storage, SQL querying, and pandas analysis.
-2. **Analytics Pipeline** — Titanic dataset profiling, exploratory data analysis, predictive modeling, model evaluation, hyperparameter tuning, and regression.
-3. **Support Assistant** — document ingestion, local embeddings, ChromaDB retrieval, LangGraph orchestration, structured responses, FastAPI, and Docker.
+1. **Data Pipeline**
+2. **Analytics & Machine Learning**
+3. **RAG Support Assistant**
 
-All three modules are contained in this **single public GitHub repository**, as required by the capstone specification.
+The implementation is designed to be reproducible, documented, and executable from a clean Python environment.
 
 ---
 
-## Project Structure
+## Project Objectives
+
+The project demonstrates the following capabilities:
+
+* Web data collection and scraping
+* Data cleaning and validation
+* Currency conversion
+* Relational database design
+* SQL analysis
+* Pandas-based data analysis
+* Exploratory data analysis
+* Machine learning classification and regression
+* Model evaluation and comparison
+* Retrieval-Augmented Generation (RAG)
+* Vector database usage
+* LangGraph workflow orchestration
+* FastAPI deployment
+* Docker-based local execution
+
+---
+
+## Repository Structure
 
 ```text
 Capstone_Project_Zepto_Masai/
 │
+├── .gitignore
+├── README.md
+├── requirements.txt
+│
 ├── data_pipeline/
+│   ├── README.md
+│   │
+│   ├── src/
+│   │   ├── scraper.py
+│   │   ├── cleaner.py
+│   │   ├── database.py
+│   │   ├── queries.py
+│   │   └── pipeline.py
+│   │
+│   └── data/
+│       ├── database/
+│       │   └── books.db
+│       │
+│       ├── raw/
+│       │   └── books_raw.csv
+│       │
+│       ├── processed/
+│       │   └── books_cleaned.csv
+│       │
+│       └── outputs/
+│           ├── query_01_select_where.csv
+│           ├── query_02_order_limit.csv
+│           ├── query_03_distinct_categories.csv
+│           ├── query_04_between.csv
+│           ├── query_05_category_join.csv
+│           ├── query_summary.md
+│           └── join_verification.md
 │
 ├── analytics/
+│   └── ...
 │
-├── support_assistant/
-│
-├── README.md
-└── .gitignore
+└── support_assistant/
+    └── ...
 ```
 
 ---
 
 # Module 1 — Data Pipeline
 
-Location:
+The Data Pipeline module demonstrates an end-to-end workflow:
 
 ```text
-/data_pipeline
-```
-
-The data pipeline implements an end-to-end raw-to-relational workflow:
-
-```text
-books.toscrape.com
-        ↓
 Web Scraping
-        ↓
-Data Cleaning
-        ↓
-Currency Conversion
-        ↓
-Pandas DataFrame
-        ↓
-Normalized SQLite Database
-        ↓
-SQL Queries
-        ↓
-Pandas Analysis
+     ↓
+Raw CSV
+     ↓
+Data Cleaning & Validation
+     ↓
+Processed CSV
+     ↓
+SQLite Database
+     ↓
+SQL Analysis
+     ↓
+Pandas JOIN Verification
 ```
 
-The module will use:
+## Current Module 1 Result
 
-* `requests`
-* `BeautifulSoup`
-* `pandas`
-* Python `sqlite3`
+The pipeline currently processes:
 
-The required project-defined currency conversion rate is:
+* **93 books**
+* **3 categories**
+* **60 books minimum required**
+* **3 categories minimum required**
+
+Selected categories:
+
+* Mystery — 32 books
+* Historical Fiction — 26 books
+* Romance — 35 books
+
+Total:
+
+```text
+32 + 26 + 35 = 93 books
+```
+
+The requirement is **at least 60 books**, therefore 93 books satisfies the requirement.
+
+---
+
+## Module 1 Data Source
+
+The scraper uses:
+
+```text
+https://books.toscrape.com/
+```
+
+The scraper automatically collects the selected categories and does not require manual copy/paste of book information.
+
+Required fields collected from the website:
+
+* `title`
+* `price`
+* `star_rating`
+* `availability`
+* `category`
+
+---
+
+## Data Cleaning
+
+The raw website values are transformed into analysis-ready fields:
+
+| Raw Field      | Cleaned Field |
+| -------------- | ------------- |
+| `price`        | `price_gbp`   |
+| `star_rating`  | `rating`      |
+| `availability` | `in_stock`    |
+| `category`     | `category`    |
+
+The cleaned dataset additionally contains:
+
+```text
+price_inr
+```
+
+### Currency Conversion
+
+A fixed artificial conversion rate is used:
 
 ```text
 1 GBP = 105.50 INR
 ```
 
-This is a fixed assignment-defined conversion rate and does not require a live currency API.
+No external currency API is used.
 
-The completed module will contain the scraping and cleaning implementation, SQLite database/schema, SQL queries and outputs, pandas query results, and documentation of design decisions.
+The conversion is:
+
+```text
+price_inr = price_gbp × 105.50
+```
+
+The fixed rate is intentionally documented so that the pipeline remains reproducible.
 
 ---
 
-# Module 2 — Analytics Pipeline
+# SQLite Database
 
-Location:
-
-```text
-/analytics
-```
-
-The analytics pipeline uses the Titanic dataset to demonstrate a complete analyst-to-data-scientist workflow.
-
-The pipeline covers:
-
-* Dataset profiling
-* Missing-value analysis
-* Missing-value handling
-* Univariate analysis
-* Bivariate analysis
-* Multivariate analysis
-* Correlation analysis
-* Outlier detection
-* Standardization checks
-* Stratified train/test splitting
-* Train-only preprocessing
-* Logistic Regression
-* Decision Tree
-* Random Forest
-* Classification evaluation
-* ROC/AUC analysis
-* Class imbalance handling
-* SMOTE
-* Random Forest hyperparameter tuning
-* Out-of-bag evaluation
-* Multivariate linear regression
-* Regression evaluation
-* Residual analysis
-* Complete model pipeline persistence using `joblib`
-
-The raw Titanic dataset will be loaded once and saved as:
+The cleaned dataset is stored in:
 
 ```text
-/analytics/titanic.csv
+data_pipeline/data/database/books.db
 ```
 
-This committed CSV provides the required offline fallback for subsequent modeling work.
+The database uses two normalized tables.
+
+### `categories`
+
+```text
+category_id      INTEGER PRIMARY KEY
+category_name    TEXT UNIQUE
+```
+
+### `books`
+
+```text
+book_id          INTEGER PRIMARY KEY
+title            TEXT
+price_gbp        REAL
+price_inr        REAL
+rating           INTEGER
+in_stock         INTEGER
+category_id      INTEGER FOREIGN KEY
+```
+
+The relationship is:
+
+```text
+categories
+    │
+    │ category_id
+    ↓
+books.category_id
+```
+
+SQLite foreign-key enforcement is explicitly enabled.
+
+The database is rebuilt transactionally during the pipeline so that repeated executions do not create duplicate records.
 
 ---
 
-# Module 3 — Support Assistant
+# SQL Analysis
 
-Location:
+Five SQL queries are implemented:
 
-```text
-/support_assistant
-```
+### Query 1 — SELECT / WHERE
 
-The support assistant implements a grounded question-answering service over eight Zepto policy documents.
+Filters books with a rating of at least 4 and orders them by rating and price.
 
-The overall architecture is:
+### Query 2 — ORDER BY / LIMIT
 
-```text
-Policy Documents
-       ↓
-Document Chunking
-       ↓
-Local Embeddings
-       ↓
-ChromaDB
-       ↓
-User Query
-       ↓
-LangGraph Intent Classification
-       ↓
- ┌───────────────┐
- │               │
-Policy        General
-Question      Question
- │               │
- ↓               ↓
-Retrieve       Direct
-Context        Answer
- │               │
- └───────┬───────┘
-         ↓
-Structured Pydantic Response
-         ↓
-FastAPI
-```
+Returns the 10 most expensive books.
 
-The module will use:
+### Query 3 — DISTINCT
 
-* Sentence Transformers
-* `all-MiniLM-L6-v2`
-* ChromaDB
-* LangGraph
-* Pydantic
-* FastAPI
-* Uvicorn
-* Docker
+Returns the distinct book categories.
 
-The graded baseline uses deterministic offline mock behavior controlled by:
+### Query 4 — BETWEEN
+
+Returns books whose GBP price is between £20 and £40.
+
+### Query 5 — JOIN
+
+Joins the normalized `books` and `categories` tables.
+
+All query outputs are saved as CSV files.
+
+The SQL statements, row counts, and output filenames are documented in:
 
 ```text
-MOCK_LLM
+data_pipeline/data/outputs/query_summary.md
 ```
-
-The required implementation does not depend on a paid LLM service or an LLM API key.
 
 ---
 
-# Technology Stack
+# SQL and Pandas Verification
 
-## Programming
+The SQL JOIN is independently reproduced using:
 
-* Python 3.12
+```python
+pandas.merge()
+```
 
-## Data Engineering
+The verification performs:
 
-* requests
-* BeautifulSoup
-* pandas
-* SQLite
-* sqlite3
+```text
+SQL JOIN
+   ↓
+93 rows
 
-## Data Science / Machine Learning
+Pandas merge()
+   ↓
+93 rows
 
-* NumPy
-* pandas
-* Seaborn
-* Matplotlib
-* scikit-learn
-* imbalanced-learn
-* joblib
+Comparison
+   ↓
+True
+```
 
-## Generative AI / RAG
+The verification report is saved as:
 
-* Sentence Transformers
-* ChromaDB
-* LangGraph
-* Pydantic
+```text
+data_pipeline/data/outputs/join_verification.md
+```
 
-## API / Deployment
-
-* FastAPI
-* Uvicorn
-* Docker
+This demonstrates that the relational SQL JOIN can be independently reproduced using in-memory pandas DataFrames.
 
 ---
 
-# Python Environment
+# Reproducible Pipeline
 
-The project is developed using a dedicated Python virtual environment.
+The complete Module 1 workflow can be executed using:
 
-Recommended Python version:
-
-```text
-Python 3.12
+```powershell
+python -m data_pipeline.src.pipeline
 ```
 
-Local virtual environment:
+The pipeline performs:
 
-```text
-.venv/
-```
+1. Scraping
+2. Raw-data validation
+3. Raw CSV generation
+4. Data cleaning
+5. Cleaned-data validation
+6. Processed CSV generation
+7. SQLite database rebuild
+8. SQL analysis
+9. Pandas JOIN verification
 
-The virtual environment is intentionally excluded from Git using `.gitignore`.
+The pipeline is designed to be safely rerunnable.
+
+Existing generated files are regenerated, while the SQLite database is rebuilt transactionally from the current cleaned dataset.
 
 ---
 
 # Installation
 
-A consolidated root `requirements.txt` will be used for the project.
+Create and activate a Python virtual environment.
 
-The complete dependency list and installation commands will be documented once the required project dependencies have been finalized.
+```powershell
+python -m venv .venv
+```
+
+Activate it on Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
 
 ---
 
-# Running the Project
+# Python Environment
 
-Detailed end-to-end execution instructions will be added as each module is implemented and tested.
+The project was developed and tested using:
 
-## Data Pipeline
+```text
+Python 3.12
+```
 
-See:
+The required packages are defined in:
+
+```text
+requirements.txt
+```
+
+---
+
+# Module Documentation
+
+Detailed documentation for the data pipeline is available in:
 
 ```text
 data_pipeline/README.md
 ```
 
-## Analytics Pipeline
-
-See:
-
-```text
-analytics/README.md
-```
-
-## Support Assistant
-
-See:
-
-```text
-support_assistant/README.md
-```
-
----
-
-# Design Decisions
-
-Each module will document its implementation and design decisions in its respective module README and, where appropriate, within notebook Markdown cells.
-
-Important design decisions will include:
-
-* Data cleaning and parsing strategies
-* Missing-value handling
-* Database normalization
-* SQL query design
-* Train/test separation
-* Prevention of preprocessing leakage
-* Class imbalance handling
-* Model selection and evaluation
-* RAG architecture
-* Mock LLM behavior
-* Structured output validation
-* API and Docker configuration
+The Analytics and RAG modules will contain their own documentation as their implementations are completed.
 
 ---
 
 # Git Workflow
 
-This repository follows a feature-branch workflow.
+Development is performed using feature branches.
 
-The project history will include:
+Current development branch:
 
 ```text
-main
-  │
-  └── feature branch
-        │
-        ├── commit 1
-        │
-        ├── commit 2
-        │
-        └── merge back into main
+feature/project-foundation
 ```
 
-This satisfies the capstone requirement for demonstrating a feature branch with at least two commits followed by a merge into `main`.
+Major implementation stages are committed separately so that the project history clearly shows the progression of the capstone.
 
 ---
 
 # Academic Integrity
 
-This project is implemented as an original capstone submission.
+This project is developed as an academic capstone.
 
-Official documentation for Python libraries, frameworks, databases, machine-learning tools, and related technologies may be consulted for technical reference.
-
-The implementation, analysis, interpretations, design decisions, and written explanations are authored specifically for this project.
+The implementation, code structure, documentation, analysis, and validation are maintained as part of the project development process.
 
 ---
 
 # Project Status
 
-| Component               | Status         |
-| ----------------------- | -------------- |
-| Repository Setup        | ✅ Complete     |
-| Python 3.12 Environment | ✅ Complete     |
-| Git Configuration       | ✅ Complete     |
-| Project Structure       | ✅ Complete     |
-| Data Pipeline           | 🚧 In Progress |
-| Analytics Pipeline      | ⏳ Pending      |
-| Support Assistant       | ⏳ Pending      |
-| Integration Testing     | ⏳ Pending      |
-| Final Rubric Audit      | ⏳ Pending      |
-| GitHub Submission       | ⏳ Pending      |
+## Module 1 — Data Pipeline
+
+**Status: Completed**
+
+Implemented:
+
+* Web scraping
+* 93-book dataset
+* 3 categories
+* Data cleaning
+* GBP → INR conversion
+* SQLite normalized database
+* Five SQL queries
+* SQL output files
+* Pandas SQL verification
+* Independent pandas JOIN verification
+* Reproducible end-to-end pipeline
+* Rerun-safe database rebuild
+
+## Module 2 — Analytics & Machine Learning
+
+**Status: In Progress**
+
+## Module 3 — RAG Support Assistant
+
+**Status: Planned / In Progress**
 
 ---
 
 # Final Submission
 
-The final submission will consist of **one public GitHub repository** containing:
+The final project will be maintained as one public GitHub repository containing:
 
-```text
-/data_pipeline
-/analytics
-/support_assistant
-README.md
-```
-
-All three modules will be implemented, tested, documented, and verified against the Masai capstone acceptance criteria before submission.
+* Source code
+* Data pipeline
+* Analytics and ML work
+* RAG assistant
+* Documentation
+* Configuration files
+* Reproducible outputs
+* Deployment files
