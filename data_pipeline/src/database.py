@@ -8,7 +8,7 @@ This module is responsible for:
 2. Creating the normalized categories and books tables.
 3. Loading the cleaned book dataset.
 4. Maintaining the required primary-key and foreign-key relationships.
-5. Rebuilding the database safely when existing data is present.
+5. Rebuilding the database safely and deterministically on every pipeline run.
 """
 
 # ---------------------------------------------------------------------------
@@ -143,7 +143,7 @@ def insert_categories(
 
     connection.executemany(
         """
-        INSERT OR IGNORE INTO categories (category_name)
+        INSERT INTO categories (category_name)
         VALUES (?)
         """,
         [(category,) for category in categories],
@@ -246,70 +246,81 @@ def prepare_books_for_database(
 
 def load_books_to_database(dataframe) -> None:
     """
-    Load the cleaned books DataFrame into the SQLite database.
+    Rebuild the SQLite data from the supplied cleaned DataFrame.
 
-    If existing book data is present:
-    - Delete books first.
-    - Delete categories second.
-    - Reload the complete dataset.
+    Every pipeline run produces a database that exactly represents the
+    current cleaned dataset.
 
-    If the database is empty:
-    - Load the dataset directly.
+    Rebuild process:
 
-    The complete rebuild is handled as one transaction so that a failure
-    can be rolled back without leaving the database in a partial state.
+    1. Ensure the required tables exist.
+    2. Delete books first.
+    3. Delete categories second.
+    4. Insert the current categories.
+    5. Insert the current books.
+    6. Commit the complete operation as one transaction.
+
+    Books are deleted before categories because books.category_id references
+    categories.category_id.
+
+    If any step fails, the transaction is rolled back so the database is not
+    left in a partially rebuilt state.
     """
 
     connection = get_connection()
 
     try:
-        # ---------------------------------------------------------------
-        # Check whether existing book data is present.
-        # ---------------------------------------------------------------
-        existing_books = connection.execute(
-            "SELECT COUNT(*) FROM books"
-        ).fetchone()[0]
+        # ------------------------------------------------------------------
+        # Step 1: Ensure the required tables exist.
+        # ------------------------------------------------------------------
+        create_tables(connection)
 
-        if existing_books > 0:
-            # Books must be deleted before categories because
-            # books.category_id references categories.category_id.
-            connection.execute("DELETE FROM books")
-            connection.execute("DELETE FROM categories")
+        # ------------------------------------------------------------------
+        # Step 2: Remove the previous dataset.
+        #
+        # Books must be deleted before categories because of the foreign-key
+        # relationship between the two tables.
+        # ------------------------------------------------------------------
+        connection.execute("DELETE FROM books")
+        connection.execute("DELETE FROM categories")
 
-        # ---------------------------------------------------------------
-        # Extract unique categories from the cleaned DataFrame.
-        # ---------------------------------------------------------------
+        # ------------------------------------------------------------------
+        # Step 3: Extract unique categories from the cleaned DataFrame.
+        # ------------------------------------------------------------------
         categories = sorted(
-            dataframe["category"].dropna().unique().tolist()
+            dataframe["category"]
+            .dropna()
+            .unique()
+            .tolist()
         )
 
-        # ---------------------------------------------------------------
-        # Insert categories first so their IDs are available to books.
-        # ---------------------------------------------------------------
+        # ------------------------------------------------------------------
+        # Step 4: Insert categories first so their IDs are available to books.
+        # ------------------------------------------------------------------
         insert_categories(
             connection,
             categories,
         )
 
-        # ---------------------------------------------------------------
-        # Convert DataFrame rows into normalized book records.
-        # ---------------------------------------------------------------
+        # ------------------------------------------------------------------
+        # Step 5: Convert DataFrame rows into normalized book records.
+        # ------------------------------------------------------------------
         books = prepare_books_for_database(
             dataframe,
             connection,
         )
 
-        # ---------------------------------------------------------------
-        # Insert normalized book records.
-        # ---------------------------------------------------------------
+        # ------------------------------------------------------------------
+        # Step 6: Insert normalized book records.
+        # ------------------------------------------------------------------
         insert_books(
             connection,
             books,
         )
 
-        # ---------------------------------------------------------------
-        # Commit the complete database rebuild as one transaction.
-        # ---------------------------------------------------------------
+        # ------------------------------------------------------------------
+        # Step 7: Commit the complete database rebuild as one transaction.
+        # ------------------------------------------------------------------
         connection.commit()
 
     except Exception:
