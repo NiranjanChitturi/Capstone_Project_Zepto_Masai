@@ -1,0 +1,94 @@
+title,price_gbp,price_inr,rating,in_stock,category
+Sharp Objects,47.82,5045.01,4,True,Mystery
+"In a Dark, Dark Wood",19.63,2070.96,1,True,Mystery
+The Past Never Ends,56.5,5960.75,4,True,Mystery
+A Murder in Time,16.64,1755.52,1,True,Mystery
+The Murder of Roger Ackroyd (Hercule Poirot #4),44.1,4652.55,4,True,Mystery
+The Last Mile (Amos Decker #2),54.21,5719.15,2,True,Mystery
+That Darkness (Gardiner and Renner #1),13.92,1468.56,1,True,Mystery
+Tastes Like Fear (DI Marnie Rome #3),10.69,1127.79,1,True,Mystery
+A Time of Torment (Charlie Parker #14),48.35,5100.93,5,True,Mystery
+A Study in Scarlet (Sherlock Holmes #1),16.73,1765.02,2,True,Mystery
+Poisonous (Max Revere Novels #3),26.8,2827.4,3,True,Mystery
+Murder at the 42nd Street Library (Raymond Ambler #1),54.36,5734.98,4,True,Mystery
+Most Wanted,35.28,3722.04,3,True,Mystery
+Hide Away (Eve Duncan #20),11.84,1249.12,1,True,Mystery
+Boar Island (Anna Pigeon #19),59.48,6275.14,3,True,Mystery
+The Widow,27.26,2875.93,2,True,Mystery
+Playing with Fire,13.71,1446.41,3,True,Mystery
+What Happened on Beale Street (Secrets of the South Mysteries #2),25.37,2676.54,5,True,Mystery
+The Bachelor Girl's Guide to Murder (Herringford and Watts Mysteries #1),52.3,5517.65,5,True,Mystery
+Delivering the Truth (Quaker Midwife Mystery #1),20.89,2203.89,4,True,Mystery
+The Mysterious Affair at Styles (Hercule Poirot #1),24.8,2616.4,4,True,Mystery
+In the Woods (Dublin Murder Squad #1),38.38,4049.09,2,True,Mystery
+The Silkworm (Cormoran Strike #2),23.05,2431.78,5,True,Mystery
+The Exiled,43.45,4583.98,3,True,Mystery
+The Cuckoo's Calling (Cormoran Strike #1),19.21,2026.66,1,True,Mystery
+Extreme Prey (Lucas Davenport #26),25.4,2679.7,3,True,Mystery
+Career of Evil (Cormoran Strike #3),24.72,2607.96,2,True,Mystery
+The No. 1 Ladies' Detective Agency (No. 1 Ladies' Detective Agency #1),57.7,6087.35,4,True,Mystery
+The Girl You Lost,12.29,1296.59,5,True,Mystery
+The Girl In The Ice (DCI Erika Foster #1),15.85,1672.17,3,True,Mystery
+Blood Defense (Samantha Brinkman #1),20.3,2141.65,3,True,Mystery
+1st to Die (Women's Murder Club #1),53.98,5694.89,1,True,Mystery
+Tipping the Velvet,53.74,5669.57,1,True,Historical Fiction
+Forever and Forever: The Courtship of Henry Longfellow and Fanny Appleton,29.69,3132.3,3,True,Historical Fiction
+A Flight of Arrows (The Pathfinders #2),55.53,5858.41,5,True,Historical Fiction
+The House by the Lake,36.95,3898.23,1,True,Historical Fiction
+Mrs. Houdini,30.25,3191.38,5,True,Historical Fiction
+The Marriage of Opposites,28.08,2962.44,4,True,Historical Fiction
+Glory over Everything: Beyond The Kitchen House,45.84,4836.12,3,True,Historical Fiction
+"Love, Lies and Spies",20.55,2168.03,2,True,Historical Fiction
+A Paris Apartment,39.01,4115.55,4,True,Historical Fiction
+Lilac Girls,17.28,1823.04,2,True,Historical Fiction
+The Constant Princess (The Tudor Court #1),16.62,1753.41,3,True,Historical Fiction
+The Invention of Wings,37.34,3939.37,1,True,Historical Fiction
+World Without End (The Pillars of the Earth #2),32.97,3478.34,4,True,Historical Fiction
+The Passion of Dolssa,28.32,2987.76,5,True,Historical Fiction
+Girl With a Pearl Earring,26.77,2824.24,1,True,Historical Fiction
+Voyager (Outlander #3),21.07,2222.89,5,True,Historical Fiction
+The Red Tent,35.66,3762.13,5,True,Historical Fiction
+The Last Painting of Sara de Vos,55.55,5860.52,2,True,Historical Fiction
+The Guernsey Literary and Potato Peel Pie Society,49.53,5225.41,1,True,Historical Fiction
+Girl in the Blue Coat,46.83,4940.56,2,True,Historical Fiction
+Between Shades of Gray,20.79,2193.34,5,True,Historical Fiction
+While You Were Mine,41.32,4359.26,5,True,Historical Fiction
+The Secret Healer,34.56,3646.08,3,True,Historical Fiction
+Starlark,25.83,2725.06,3,True,Historical Fiction
+Lost Among the Living,27.7,2922.35,4,True,Historical Fiction
+A Spy's Devotion (The Regency Spies of London #1),16.97,1790.33,5,True,Historical Fiction
+Chase Me (Paris Nights #2),25.27,2665.99,5,True,Romance
+Black Dust,34.53,3642.91,5,True,Romance
+Her Backup Boyfriend (The Sorensen Family #1),33.97,3583.84,1,True,Romance
+First and First (Five Boroughs #3),15.97,1684.84,4,True,Romance
+Fifty Shades Darker (Fifty Shades #2),21.96,2316.78,1,True,Romance
+The Wedding Dress,24.12,2544.66,1,True,Romance
+Suddenly in Love (Lake Haven #1),55.99,5906.95,2,True,Romance
+Something More Than This,16.24,1713.32,4,True,Romance
+Doing It Over (Most Likely To #1),35.61,3756.86,3,True,Romance
+The Wedding Pact (The O'Malleys #2),32.61,3440.36,3,True,Romance
+Hold Your Breath (Search and Rescue #1),28.82,3040.51,1,True,Romance
+Dirty (Dive Bar #1),40.83,4307.56,4,True,Romance
+Take Me Home Tonight (Rock Star Romance #3),53.98,5694.89,3,True,Romance
+Off the Hook (Fishing for Trouble #1),47.67,5029.19,3,True,Romance
+A Gentleman's Position (Society of Gentlemen #3),14.75,1556.12,5,True,Romance
+"Sit, Stay, Love",20.9,2204.95,3,True,Romance
+A Girl's Guide to Moving On (New Beginnings #2),31.3,3302.15,1,True,Romance
+The Perfect Play (Play by Play #1),59.99,6328.95,3,True,Romance
+Dark Lover (Black Dagger Brotherhood #1),12.87,1357.78,1,True,Romance
+Changing the Game (Play by Play #2),13.38,1411.59,3,True,Romance
+A Walk to Remember,56.43,5953.36,1,True,Romance
+The Purest Hook (Second Circle Tattoos #3),12.25,1292.38,1,True,Romance
+The Obsession,45.43,4792.86,1,True,Romance
+Reservations for Two,11.1,1171.05,3,True,Romance
+Best of My Love (Fool's Gold #20),27.41,2891.76,2,True,Romance
+Where Lightning Strikes (Bleeding Stars #3),39.77,4195.74,3,True,Romance
+This One Moment (Pushing Limits #1),48.71,5138.9,1,True,Romance
+"Rhythm, Chord & Malykhin",28.34,2989.87,2,True,Romance
+My Perfect Mistake (Over the Top #1),38.92,4106.06,2,True,Romance
+Listen to Me (Fusion #1),58.99,6223.45,3,True,Romance
+Imperfect Harmony,34.74,3665.07,4,True,Romance
+Fighting Fate (Fighting #6),39.24,4139.82,3,True,Romance
+Deep Under (Walker Security #1),47.09,4968.0,5,True,Romance
+Charity's Cross (Charles Towne Belles #4),41.24,4350.82,1,True,Romance
+Bounty (Colorado Mountain #7),37.26,3930.93,4,True,Romance

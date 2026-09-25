@@ -1,0 +1,2 @@
+model,accuracy,precision,recall,f1,roc_auc,best_cv_roc_auc,oob_score,best_params
+Tuned Random Forest,0.8100558659217877,0.8723404255319149,0.5942028985507246,0.7068965517241379,0.8465085638998683,0.8720779107691333,0.8300561797752809,"{'model__max_depth': 5, 'model__max_features': 'sqrt', 'model__n_estimators': 200}"

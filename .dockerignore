@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Python virtual environment
+.venv
+venv
+env
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints
+
+# Local ChromaDB generated during development
+support_assistant/data/chroma_db
+
+# Module-generated caches
+support_assistant/__pycache__
+support_assistant/src/__pycache__
+
+# Analytics generated caches
+analytics/__pycache__
+analytics/src/__pycache__
+
+# Data pipeline caches
+data_pipeline/__pycache__
+data_pipeline/src/__pycache__
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode
+.idea
+
+# Temporary files
+*.tmp
+*.log
