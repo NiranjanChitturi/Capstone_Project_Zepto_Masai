@@ -73,7 +73,7 @@ desktop.ini
 *.temp
 
 # Local Chroma runtime/cache
-support_assistant/chroma_db/
+support_assistant/data/chroma_db/
 
 # ============================================================
 # Generated Python cache
