@@ -929,36 +929,23 @@ Verified:
 
 # Git Workflow
 
-Development is performed using a feature branch.
-
-Current development branch:
+Development was performed using the feature branch:
 
 ```text
 feature/project-foundation
 ```
 
-The project history contains multiple implementation commits across the capstone stages.
+The feature branch contains the major implementation commits for the capstone and was merged into `main` using a non-fast-forward merge.
 
-The final submission workflow is:
+The final submission branch is:
 
 ```text
-feature/project-foundation
-          |
-          | final commit(s)
-          v
-       push branch
-          |
-          v
-         main
-          ^
-          |
-       merge branch
+main
 ```
 
-The final repository will contain the completed three-module implementation and documentation.
+The Git history preserves the feature-development commits and the merge into the final `main` branch.
 
 ---
-
 # Academic Integrity
 
 This project is developed as an academic capstone.
