@@ -95,6 +95,7 @@ def create_chroma_collection():
         metadata={
             "description": "Zepto policy knowledge base",
             "embedding_model": EMBEDDING_MODEL,
+            "hnsw:space": "cosine",
         },
     )
 

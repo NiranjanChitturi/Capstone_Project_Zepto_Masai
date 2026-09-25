@@ -120,6 +120,8 @@ The model runs locally using Sentence Transformers.
 
 ChromaDB is used as the persistent vector store.
 
+ChromaDB uses cosine similarity (`hnsw:space = cosine`) for vector retrieval. The retrieval stage returns the top-3 most similar knowledge-base chunks for policy questions.
+
 The ingestion process:
 
 1. Loads all eight policy documents.
