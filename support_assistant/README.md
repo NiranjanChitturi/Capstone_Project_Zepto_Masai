@@ -319,7 +319,9 @@ Therefore the default execution does not require an external LLM, API key, or pa
 
 The routing logic itself is independent of the toggle.
 
-The optional real-LLM path can be enabled by setting:
+The assignment allows an optional real-LLM implementation, but the current project implementation uses the deterministic mock path.
+
+Setting:
 
 ```text
 MOCK_LLM=0
