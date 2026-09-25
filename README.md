@@ -2,7 +2,7 @@
 
 Masai School AI/ML Capstone Project
 
-This repository contains an end-to-end data engineering, analytics, machine learning, and AI assistant project developed as part of the Masai School capstone.
+This repository contains an end-to-end data engineering, analytics, machine learning, and AI support assistant project developed as part of the Masai School capstone.
 
 The project is organized into three major modules:
 
@@ -16,73 +16,125 @@ The implementation is designed to be reproducible, documented, and executable fr
 
 ## Project Objectives
 
-The project demonstrates the following capabilities:
+The project demonstrates:
 
-* Web data collection and scraping
-* Data cleaning and validation
-* Currency conversion
-* Relational database design
-* SQL analysis
-* Pandas-based data analysis
-* Exploratory data analysis
-* Machine learning classification and regression
-* Model evaluation and comparison
-* Retrieval-Augmented Generation (RAG)
-* Vector database usage
-* LangGraph workflow orchestration
-* FastAPI deployment
-* Docker-based local execution
+- Web data collection and scraping
+- Data cleaning and validation
+- Currency conversion
+- Relational database design
+- SQL analysis
+- Pandas-based data analysis
+- Exploratory data analysis
+- Machine learning classification and regression
+- Model evaluation and comparison
+- Retrieval-Augmented Generation (RAG)
+- Local vector database usage
+- LangGraph workflow orchestration
+- Pydantic structured-output validation
+- FastAPI API development
+- Docker-based local execution
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```text
 Capstone_Project_Zepto_Masai/
 │
+├── .dockerignore
 ├── .gitignore
+├── Dockerfile
 ├── README.md
 ├── requirements.txt
 │
 ├── data_pipeline/
 │   ├── README.md
-│   │
 │   ├── src/
 │   │   ├── scraper.py
 │   │   ├── cleaner.py
 │   │   ├── database.py
 │   │   ├── queries.py
 │   │   └── pipeline.py
-│   │
 │   └── data/
 │       ├── database/
 │       │   └── books.db
-│       │
 │       ├── raw/
 │       │   └── books_raw.csv
-│       │
 │       ├── processed/
 │       │   └── books_cleaned.csv
-│       │
 │       └── outputs/
-│           ├── query_01_select_where.csv
-│           ├── query_02_order_limit.csv
-│           ├── query_03_distinct_categories.csv
-│           ├── query_04_between.csv
-│           ├── query_05_category_join.csv
-│           ├── query_summary.md
-│           └── join_verification.md
 │
 ├── analytics/
-│   └── ...
+│   ├── README.md
+│   ├── data/
+│   │   └── titanic.csv
+│   ├── notebooks/
+│   ├── outputs/
+│   └── src/
 │
 └── support_assistant/
-    └── ...
+    ├── README.md
+    ├── docker-requirements.txt
+    ├── knowledge_base/
+    │   └── docs/
+    │       ├── doc_01.txt
+    │       ├── doc_02.txt
+    │       ├── doc_03.txt
+    │       ├── doc_04.txt
+    │       ├── doc_05.txt
+    │       ├── doc_06.txt
+    │       ├── doc_07.txt
+    │       └── doc_08.txt
+    ├── data/
+    │   └── chroma_db/          # generated locally; not committed
+    └── src/
+        ├── api.py
+        ├── ingest.py
+        ├── prompt_template.py
+        ├── retrieve.py
+        ├── schema.py
+        └── workflow.py
 ```
 
 ---
 
+# Installation
+
+## Prerequisites
+
+- Python 3.12
+- Git
+- Docker Desktop for Docker testing
+
+The project was developed and tested with Python 3.12.
+
+## Create the Python environment
+
+From the repository root:
+
+```powershell
+python -m venv .venv
+```
+
+Activate it on Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install the project dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
+
+The root `requirements.txt` contains the dependencies used across the three modules.
+
+---
+
 # Module 1 — Data Pipeline
+
+## Objective
 
 The Data Pipeline module demonstrates an end-to-end workflow:
 
@@ -102,32 +154,7 @@ SQL Analysis
 Pandas JOIN Verification
 ```
 
-## Current Module 1 Result
-
-The pipeline currently processes:
-
-* **93 books**
-* **3 categories**
-* **60 books minimum required**
-* **3 categories minimum required**
-
-Selected categories:
-
-* Mystery — 32 books
-* Historical Fiction — 26 books
-* Romance — 35 books
-
-Total:
-
-```text
-32 + 26 + 35 = 93 books
-```
-
-The requirement is **at least 60 books**, therefore 93 books satisfies the requirement.
-
----
-
-## Module 1 Data Source
+## Dataset
 
 The scraper uses:
 
@@ -135,28 +162,45 @@ The scraper uses:
 https://books.toscrape.com/
 ```
 
-The scraper automatically collects the selected categories and does not require manual copy/paste of book information.
+The implementation processes:
 
-Required fields collected from the website:
+- **93 books**
+- **3 categories**
 
-* `title`
-* `price`
-* `star_rating`
-* `availability`
-* `category`
+Selected categories:
 
----
+- Mystery — 32 books
+- Historical Fiction — 26 books
+- Romance — 35 books
+
+Total:
+
+```text
+32 + 26 + 35 = 93 books
+```
+
+The required minimum is 60 books and 3 categories.
+
+## Required Fields
+
+The scraper collects:
+
+- `title`
+- `price`
+- `star_rating`
+- `availability`
+- `category`
 
 ## Data Cleaning
 
-The raw website values are transformed into analysis-ready fields:
+The raw fields are transformed into:
 
-| Raw Field      | Cleaned Field |
-| -------------- | ------------- |
-| `price`        | `price_gbp`   |
-| `star_rating`  | `rating`      |
-| `availability` | `in_stock`    |
-| `category`     | `category`    |
+| Raw Field | Cleaned Field |
+|---|---|
+| `price` | `price_gbp` |
+| `star_rating` | `rating` |
+| `availability` | `in_stock` |
+| `category` | `category` |
 
 The cleaned dataset additionally contains:
 
@@ -164,35 +208,29 @@ The cleaned dataset additionally contains:
 price_inr
 ```
 
-### Currency Conversion
-
 A fixed artificial conversion rate is used:
 
 ```text
 1 GBP = 105.50 INR
 ```
 
-No external currency API is used.
-
-The conversion is:
+Therefore:
 
 ```text
 price_inr = price_gbp × 105.50
 ```
 
-The fixed rate is intentionally documented so that the pipeline remains reproducible.
+No external currency API is used.
 
----
+## SQLite Database
 
-# SQLite Database
-
-The cleaned dataset is stored in:
+The database is:
 
 ```text
 data_pipeline/data/database/books.db
 ```
 
-The database uses two normalized tables.
+It contains two normalized tables:
 
 ### `categories`
 
@@ -213,57 +251,31 @@ in_stock         INTEGER
 category_id      INTEGER FOREIGN KEY
 ```
 
-The relationship is:
+The database enables foreign-key enforcement and is rebuilt transactionally during the pipeline.
+
+## SQL Analysis
+
+Five SQL queries demonstrate:
+
+1. SELECT / WHERE
+2. ORDER BY / LIMIT
+3. DISTINCT
+4. BETWEEN
+5. JOIN
+
+Query outputs are stored under:
 
 ```text
-categories
-    │
-    │ category_id
-    ↓
-books.category_id
+data_pipeline/data/outputs/
 ```
 
-SQLite foreign-key enforcement is explicitly enabled.
-
-The database is rebuilt transactionally during the pipeline so that repeated executions do not create duplicate records.
-
----
-
-# SQL Analysis
-
-Five SQL queries are implemented:
-
-### Query 1 — SELECT / WHERE
-
-Filters books with a rating of at least 4 and orders them by rating and price.
-
-### Query 2 — ORDER BY / LIMIT
-
-Returns the 10 most expensive books.
-
-### Query 3 — DISTINCT
-
-Returns the distinct book categories.
-
-### Query 4 — BETWEEN
-
-Returns books whose GBP price is between £20 and £40.
-
-### Query 5 — JOIN
-
-Joins the normalized `books` and `categories` tables.
-
-All query outputs are saved as CSV files.
-
-The SQL statements, row counts, and output filenames are documented in:
+The SQL summary is documented in:
 
 ```text
 data_pipeline/data/outputs/query_summary.md
 ```
 
----
-
-# SQL and Pandas Verification
+## SQL and Pandas Verification
 
 The SQL JOIN is independently reproduced using:
 
@@ -271,35 +283,17 @@ The SQL JOIN is independently reproduced using:
 pandas.merge()
 ```
 
-The verification performs:
+The verification confirms that the SQL and pandas JOIN produce the same result.
 
-```text
-SQL JOIN
-   ↓
-93 rows
-
-Pandas merge()
-   ↓
-93 rows
-
-Comparison
-   ↓
-True
-```
-
-The verification report is saved as:
+The verification report is:
 
 ```text
 data_pipeline/data/outputs/join_verification.md
 ```
 
-This demonstrates that the relational SQL JOIN can be independently reproduced using in-memory pandas DataFrames.
+## Run Module 1
 
----
-
-# Reproducible Pipeline
-
-The complete Module 1 workflow can be executed using:
+From the repository root:
 
 ```powershell
 python -m data_pipeline.src.pipeline
@@ -317,65 +311,625 @@ The pipeline performs:
 8. SQL analysis
 9. Pandas JOIN verification
 
-The pipeline is designed to be safely rerunnable.
-
-Existing generated files are regenerated, while the SQLite database is rebuilt transactionally from the current cleaned dataset.
-
----
-
-# Installation
-
-Create and activate a Python virtual environment.
-
-```powershell
-python -m venv .venv
-```
-
-Activate it on Windows PowerShell:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-Install dependencies:
-
-```powershell
-pip install -r requirements.txt
-```
-
----
-
-# Python Environment
-
-The project was developed and tested using:
-
-```text
-Python 3.12
-```
-
-The required packages are defined in:
-
-```text
-requirements.txt
-```
-
----
-
-# Module Documentation
-
-Detailed documentation for the data pipeline is available in:
+Detailed documentation:
 
 ```text
 data_pipeline/README.md
 ```
 
-The Analytics and RAG modules will contain their own documentation as their implementations are completed.
+### Module 1 Status
+
+**Completed**
+
+---
+
+# Module 2 — Analytics & Machine Learning
+
+## Objective
+
+The Analytics module uses the Titanic dataset to demonstrate exploratory data analysis, visualization, classification, model evaluation, imbalance handling, hyperparameter tuning, and regression.
+
+The dataset is saved locally so the analysis is reproducible without requiring a fresh external dataset download.
+
+Dataset:
+
+```text
+analytics/data/titanic.csv
+```
+
+## Exploratory Data Analysis
+
+The module covers:
+
+- Dataset shape and structure
+- `info()`
+- `describe()`
+- Missing-value analysis
+- Missing-value threshold handling
+- Age and fare distributions
+- Histograms
+- Box plots
+- IQR-based outlier analysis
+- Fare mean, median, mode, and skew
+- Boolean masks
+- Survival-rate analysis
+- Six-column correlation matrix
+- Correlation heatmap
+- Strongest absolute correlations
+- Multivariate visualizations
+- Exploratory feature standardization
+
+## Classification
+
+The module uses a stratified train/test split and train-only preprocessing.
+
+The following models are evaluated:
+
+- Logistic Regression
+- Decision Tree
+- Random Forest
+
+Evaluation includes:
+
+- Accuracy
+- Precision
+- Recall
+- F1 score
+- ROC-AUC
+- Confusion matrices
+- ROC curves
+
+## Class Imbalance
+
+Random Forest is evaluated using:
+
+- Baseline training
+- Balanced class weights
+- SMOTE
+
+## Hyperparameter Tuning
+
+Random Forest is tuned using `GridSearchCV`.
+
+The search includes:
+
+- `n_estimators`
+- `max_depth`
+- `max_features`
+
+The tuned Random Forest also uses:
+
+```text
+oob_score=True
+```
+
+## Regression
+
+A regression model is used to predict fare.
+
+Evaluation includes:
+
+- MAE
+- RMSE
+- R²
+- Adjusted R²
+- Residual analysis
+
+## Model Persistence
+
+The complete fitted preprocessing/model pipeline is saved using `joblib` and can be reloaded for prediction.
+
+## Verified Classification Results
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.8045 | 0.7931 | 0.6667 | 0.7244 | 0.8437 |
+| Decision Tree | 0.8156 | 0.7903 | 0.7101 | 0.7481 | 0.7904 |
+| Random Forest | 0.8156 | 0.8000 | 0.6957 | 0.7442 | 0.8300 |
+
+Tuned Random Forest:
+
+```text
+Accuracy : 0.8101
+Precision: 0.8723
+Recall   : 0.5942
+F1       : 0.7069
+ROC-AUC  : 0.8465
+CV AUC   : 0.8721
+OOB Score: 0.8301
+```
+
+Selected parameters:
+
+```text
+n_estimators = 200
+max_depth    = 5
+max_features = sqrt
+```
+
+## Verified Regression Results
+
+```text
+MAE          = 20.8977
+RMSE         = 30.5328
+R²           = 0.3975
+Adjusted R²  = 0.3617
+```
+
+## Saved Model Prediction Test
+
+A persisted model was reloaded and tested using:
+
+```text
+pclass   = 1
+sex      = female
+age      = 30
+sibsp    = 0
+parch    = 0
+fare     = 80
+embarked = S
+```
+
+The verified output was:
+
+```text
+Predicted class       = 1
+Survival probability  = 0.9721
+```
+
+## Module 2 Status
+
+**Completed**
+
+Detailed documentation:
+
+```text
+analytics/README.md
+```
+
+---
+
+# Module 3 — RAG Support Assistant
+
+## Objective
+
+The Support Assistant implements a local, policy-grounded customer support system using the eight required policy documents.
+
+The module includes:
+
+- Knowledge-base ingestion
+- Document chunking
+- Local Sentence Transformer embeddings
+- ChromaDB
+- Semantic retrieval
+- Structured prompt engineering
+- LangGraph
+- Deterministic `MOCK_LLM`
+- Pydantic validation
+- FastAPI
+- Docker
+
+## Knowledge Base
+
+The exact eight required documents are stored in:
+
+```text
+support_assistant/knowledge_base/docs/
+```
+
+```text
+doc_01.txt
+doc_02.txt
+doc_03.txt
+doc_04.txt
+doc_05.txt
+doc_06.txt
+doc_07.txt
+doc_08.txt
+```
+
+## Embeddings
+
+The required local model is:
+
+```text
+all-MiniLM-L6-v2
+```
+
+Documents are embedded locally and stored in ChromaDB.
+
+The implementation uses one chunk per document because the supplied policy documents are short.
+
+## Build the Knowledge Base
+
+Run:
+
+```powershell
+python support_assistant\src\ingest.py
+```
+
+Expected result:
+
+```text
+Documents loaded: 8
+Documents/chunks stored in ChromaDB: 8
+Embedding model: all-MiniLM-L6-v2
+Knowledge-base ingestion completed successfully.
+```
+
+The generated ChromaDB directory is intentionally excluded from Git and can be recreated from the corpus.
+
+## Retrieval
+
+Test semantic retrieval with:
+
+```powershell
+python support_assistant\src\retrieve.py
+```
+
+The implementation retrieves the top-3 relevant policy chunks.
+
+A verified delivery-fee query returned:
+
+```text
+doc_01
+doc_05
+doc_03
+```
+
+with `doc_01` as the top result.
+
+## Structured Prompt
+
+The prompt template is implemented in:
+
+```text
+support_assistant/src/prompt_template.py
+```
+
+It contains the required:
+
+1. Role
+2. Context
+3. Task
+4. Format
+5. Length
+
+It also includes:
+
+- An explicit negative constraint
+- A few-shot example
+
+Test it with:
+
+```powershell
+python support_assistant\src\prompt_template.py
+```
+
+## LangGraph Workflow
+
+The workflow uses a `TypedDict` state and three nodes:
+
+```text
+classify_intent
+retrieve_and_answer
+direct_answer
+```
+
+Flow:
+
+```text
+START
+  |
+  v
+classify_intent
+  |
+  +-------------------------+
+  |                         |
+  v                         v
+retrieve_and_answer    direct_answer
+  |                         |
+  v                         v
+ END                       END
+```
+
+### Intent Classification
+
+The deterministic keyword heuristic checks for:
+
+```text
+delivery
+return
+refund
+membership
+tracking
+cancel
+gift card
+support hours
+```
+
+Matching queries are routed to:
+
+```text
+policy_question
+```
+
+Other queries are routed to:
+
+```text
+general_question
+```
+
+### Policy Route
+
+The policy route always retrieves the top-3 results from ChromaDB.
+
+The deterministic mock answer uses:
+
+```text
+Based on the retrieved context: <top chunk snippet>
+```
+
+where the snippet is approximately the first 200 characters of the top retrieved chunk.
+
+### General Route
+
+The deterministic direct answer is:
+
+```text
+I can only answer questions about Zepto policies right now.
+```
+
+No retrieval is performed for general questions.
+
+## MOCK_LLM
+
+The default behavior is deterministic mock mode.
+
+If `MOCK_LLM` is unset, mock mode is enabled.
+
+Mock mode can explicitly be enabled with:
+
+```text
+MOCK_LLM=1
+```
+
+The optional real-LLM branch can be selected with:
+
+```text
+MOCK_LLM=0
+```
+
+The default support-assistant path does not require an external LLM, API key, or paid service.
+
+## Pydantic Response
+
+The response schema contains:
+
+```text
+answer       : string
+sources      : list[string]
+confidence   : float between 0 and 1
+```
+
+Mock confidence values are:
+
+```text
+Policy question : 0.9
+General question: 0.5
+```
+
+Validation includes retry handling for invalid responses.
+
+## FastAPI
+
+Start the application with:
+
+```powershell
+uvicorn support_assistant.src.api:app --reload
+```
+
+Endpoint:
+
+```text
+POST /ask
+```
+
+Example request:
+
+```json
+{
+  "query": "What is the delivery fee for orders below INR 149?"
+}
+```
+
+### Verified Policy Response
+
+```json
+{
+  "answer": "Based on the retrieved context: Zepto delivers grocery and household essentials to serviceable pin codes within 10 to 30 minutes of order confirmation, depending on the customer's delivery zone and current order volume. Standard del",
+  "sources": [
+    "doc_01",
+    "doc_05",
+    "doc_03"
+  ],
+  "confidence": 0.9
+}
+```
+
+### Verified General Response
+
+Request:
+
+```json
+{
+  "query": "What is the capital of India?"
+}
+```
+
+Response:
+
+```json
+{
+  "answer": "I can only answer questions about Zepto policies right now.",
+  "sources": [],
+  "confidence": 0.5
+}
+```
+
+## Docker
+
+The Module 3 Docker image is built using:
+
+```text
+Dockerfile
+```
+
+Module-specific Docker dependencies are defined in:
+
+```text
+support_assistant/docker-requirements.txt
+```
+
+The Docker dependency setup uses CPU PyTorch packages to avoid the unnecessary CUDA dependency stack.
+
+### Build
+
+From the repository root:
+
+```powershell
+docker build -t zepto-support-assistant:latest .
+```
+
+### Run
+
+```powershell
+docker run --name zepto-support-assistant -p 8000:8000 zepto-support-assistant:latest
+```
+
+The Dockerized FastAPI application was successfully tested.
+
+Verified:
+
+```text
+Policy question  → retrieval response  → PASS
+General question → direct response      → PASS
+```
+
+Detailed Module 3 documentation:
+
+```text
+support_assistant/README.md
+```
+
+---
+
+# Design Decisions
+
+## Reproducibility
+
+The project stores required datasets and generated analysis outputs locally where appropriate.
+
+Generated runtime artifacts such as the ChromaDB database are excluded from Git and can be recreated.
+
+## Module Separation
+
+Each capstone requirement is isolated into its own module:
+
+```text
+data_pipeline/
+analytics/
+support_assistant/
+```
+
+This keeps the implementation organized and makes each module independently understandable.
+
+## Local-First AI
+
+Module 3 uses local embeddings and ChromaDB.
+
+The default support-assistant path is deterministic and does not require an external LLM service.
+
+## Database Design
+
+Module 1 uses a normalized SQLite schema with separate category and book tables.
+
+## Machine Learning Reproducibility
+
+Module 2 uses train-only preprocessing and persists the complete fitted model pipeline using `joblib`.
+
+## API and Containerization
+
+Module 3 exposes a FastAPI endpoint and provides a Dockerfile for reproducible local execution.
+
+---
+
+# Testing and Verification Summary
+
+## Module 1
+
+Verified:
+
+- 93 books
+- 3 categories
+- Required book fields
+- Cleaned dataset
+- SQLite database
+- Five SQL queries
+- SQL JOIN
+- Pandas JOIN verification
+- Reproducible pipeline
+- Rerun-safe database rebuild
+
+## Module 2
+
+Verified:
+
+- EDA
+- Missing-value analysis
+- Outlier analysis
+- Correlation analysis
+- Multivariate visualizations
+- Logistic Regression
+- Decision Tree
+- Random Forest
+- Class imbalance handling
+- GridSearchCV
+- OOB score
+- ROC/AUC
+- Fare regression
+- Model persistence
+- Reloaded prediction
+
+## Module 3
+
+Verified:
+
+- Eight policy documents
+- Local embeddings
+- ChromaDB ingestion
+- Semantic top-3 retrieval
+- Structured prompt
+- Negative constraint
+- Few-shot example
+- LangGraph StateGraph
+- TypedDict state
+- Three workflow nodes
+- Conditional routing
+- Deterministic mock answers
+- Pydantic validation
+- FastAPI `/ask`
+- Policy API call
+- General API call
+- Docker build
+- Docker runtime
+- Docker API tests
 
 ---
 
 # Git Workflow
 
-Development is performed using feature branches.
+Development is performed using a feature branch.
 
 Current development branch:
 
@@ -383,7 +937,25 @@ Current development branch:
 feature/project-foundation
 ```
 
-Major implementation stages are committed separately so that the project history clearly shows the progression of the capstone.
+The project history contains multiple implementation commits across the capstone stages.
+
+The final submission workflow is:
+
+```text
+feature/project-foundation
+          |
+          | final commit(s)
+          v
+       push branch
+          |
+          v
+         main
+          ^
+          |
+       merge branch
+```
+
+The final repository will contain the completed three-module implementation and documentation.
 
 ---
 
@@ -395,7 +967,7 @@ The implementation, code structure, documentation, analysis, and validation are 
 
 ---
 
-# Project Status
+# Final Project Status
 
 ## Module 1 — Data Pipeline
 
@@ -403,38 +975,69 @@ The implementation, code structure, documentation, analysis, and validation are 
 
 Implemented:
 
-* Web scraping
-* 93-book dataset
-* 3 categories
-* Data cleaning
-* GBP → INR conversion
-* SQLite normalized database
-* Five SQL queries
-* SQL output files
-* Pandas SQL verification
-* Independent pandas JOIN verification
-* Reproducible end-to-end pipeline
-* Rerun-safe database rebuild
+- Web scraping
+- 93-book dataset
+- 3 categories
+- Data cleaning
+- GBP → INR conversion
+- SQLite normalized database
+- Five SQL queries
+- SQL output files
+- Pandas SQL verification
+- Independent pandas JOIN verification
+- Reproducible end-to-end pipeline
+- Rerun-safe database rebuild
 
 ## Module 2 — Analytics & Machine Learning
 
-**Status: In Progress**
+**Status: Completed**
+
+Implemented:
+
+- Titanic EDA
+- Data quality analysis
+- Visualization
+- Correlation analysis
+- Classification
+- Class imbalance handling
+- Hyperparameter tuning
+- ROC/AUC evaluation
+- Regression
+- Residual analysis
+- Model persistence
+- Reloaded prediction
 
 ## Module 3 — RAG Support Assistant
 
-**Status: Planned / In Progress**
+**Status: Completed**
+
+Implemented:
+
+- Eight-document policy corpus
+- Local embeddings
+- ChromaDB
+- Structured prompt
+- LangGraph workflow
+- Deterministic `MOCK_LLM`
+- Pydantic validation
+- FastAPI
+- Docker
+- API verification
 
 ---
 
 # Final Submission
 
-The final project will be maintained as one public GitHub repository containing:
+The final project is maintained as one public GitHub repository containing:
 
-* Source code
-* Data pipeline
-* Analytics and ML work
-* RAG assistant
-* Documentation
-* Configuration files
-* Reproducible outputs
-* Deployment files
+- Source code
+- Data pipeline
+- Analytics and machine learning work
+- RAG support assistant
+- Required corpus documents
+- Documentation
+- Configuration files
+- Reproducible outputs
+- Docker deployment files
+
+Each module also contains its own detailed README where appropriate.
